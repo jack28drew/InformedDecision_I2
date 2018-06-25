@@ -2,49 +2,80 @@
 #define INFORMEDDECISION_H_
 
 #include <QApplication>
+#include <QMainWindow>
+#include <QDockWidget>
+#include <QGroupBox>
 #include <QString>
-#include <QLabel>
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QSlider>
 #include <QSpinBox>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QDial>
+#include <QLCDNumber>
 #include <QPushButton>
 #include <QFile>
+#include <QTextEdit>
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QMessageBox>
 
-#include <QVBoxLayout>
+#include <QBoxLayout>
 
-class InformedDecision : public QWidget {
+
+class InformedDecision : public QMainWindow {
 	Q_OBJECT
 public:
-	explicit InformedDecision(QWidget *parent = 0);
+	explicit InformedDecision();
+
+private slots:
+    void createOutputWidget();
+    void openFile();
+    void saveFile();
 
 private:
-	QVBoxLayout * mainLayout;
-
+    QDockWidget *studentInfoWindow;
+    QTextEdit *textEdit;
 	QComboBox *studentType;
-	QLabel *studentTypeLabel;
 	QDoubleSpinBox *gpaSpinBox;
-	QLabel *gpaSpinBoxLabel;
-	QSlider *satSlider;
+    QSlider *satSlider;
 	QSpinBox *satSpinBox;
-	QLabel *satLabel;
 	QLineEdit *fundsInput;
-	QLabel *fundsLabel;
 	QListWidget *hobbiesList;
-	QLabel *hobbiesLabel;
+    QDial *distanceInput;
+    QLCDNumber *distanceDisplay;
 	QPushButton *okButton;
 	QPushButton *cancelButton;
 
-	void createStudentTypeWidget();
-	void createGPAWidget();
-	void createSATWidget();
-	void createFundsWidget();
-	void createHobbiesWidget();
-	void createButtons();
+    QGroupBox *universityBox;
+    QGroupBox *majorsBox;
 
-	void createLayout();
+    QVBoxLayout *studentInfoLayout;
+
+    QMenuBar *menuBar;
+    QAction *quitAct;
+    QAction *openAct;
+    QAction *saveAct; 
+    QAction *helpAct;
+
+    void createDockWidget();
+    void createDockWidget2();
+    void okButtonPressed();
+	QGroupBox *createStudentTypeWidget();
+	QGroupBox *createGPAWidget();
+	QGroupBox *createSATWidget();
+	QGroupBox *createFundsWidget();
+	QGroupBox *createHobbiesWidget();
+    QGroupBox *createDistanceWidget();
+    QGroupBox *createUniversityList();
+    QGroupBox *createMajorsList();
+	QVBoxLayout *createLayout();
+
+    void createMenuBar();
 };
 
 #endif //IFORMEDDECISION_H_
