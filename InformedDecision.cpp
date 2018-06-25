@@ -65,6 +65,7 @@ QGroupBox *InformedDecision::createSATWidget() {
 	satSpinBox->setRange(400, 1600);
 	satSpinBox->setValue(1000);
 
+    /* links the SAT Slider and SAT spinbox so user can input SAT score with either widget*/
 	QObject::connect(satSlider, SIGNAL(valueChanged(int)), satSpinBox, SLOT(setValue(int)));
 	QObject::connect(satSpinBox, SIGNAL(valueChanged(int)), satSlider, SLOT(setValue(int)));
 
@@ -125,7 +126,7 @@ QGroupBox *InformedDecision::createDistanceWidget() {
     distanceDisplay = new QLCDNumber;
     distanceDisplay->setDigitCount(5);
     distanceDisplay->setDecMode();
-    QObject::connect(distanceInput, SIGNAL(valueChanged(int)), distanceDisplay, SLOT(display(int)));
+    QObject::connect(distanceInput, SIGNAL(valueChanged(int)), distanceDisplay, SLOT(display(int)));    //connects the distance dial to LCD display
 
     QGroupBox *box = new QGroupBox;
     box->setTitle("Maximum Distance");
@@ -152,8 +153,8 @@ QGroupBox *InformedDecision::createUniversityList() {
         QString line = file.readLine();
         QStringList info = line.split(',');
 
-        if(gpa >= info[1].toDouble() && sat >= info[2].toInt() && funds >= info[3].toInt()) 
-            universities << info[0];
+        if(gpa >= info[1].toDouble() && sat >= info[2].toInt() && funds >= info[3].toInt())     //adds some real functionality to the system. Checks
+            universities << info[0];                                                            //user inputs against database info to output only relevant universities
     }
 
     QListWidget *universityList = new QListWidget;
@@ -195,8 +196,8 @@ QGroupBox *InformedDecision::createMajorsList() {
 }
 
 void InformedDecision::okButtonPressed() {
-    QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(createOutputWidget()));
-}
+    QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(createOutputWidget()));    //connects ok button to custom slot to read 
+}                                                                                       //user inputs and create output widget
 
 void InformedDecision::createOutputWidget() {
     QString input = studentType->currentText();
@@ -249,15 +250,15 @@ void InformedDecision::createMenuBar() {
     menuBar->addMenu(file);
 
     openAct = new QAction("Open", file);
-    QObject::connect(openAct, SIGNAL(triggered()), this, SLOT(openFile()));
+    QObject::connect(openAct, SIGNAL(triggered()), this, SLOT(openFile())); //opens file in text edit area when "Open" menu item is selected
     file->addAction(openAct);
 
     saveAct = new QAction("Save", file);
-    QObject::connect(saveAct, SIGNAL(triggered()), this, SLOT(saveFile()));
+    QObject::connect(saveAct, SIGNAL(triggered()), this, SLOT(saveFile())); //saves file from text edit area when "Save" menu item is selected
     file->addAction(saveAct);
 
     quitAct = new QAction("Quit", file);
-    QObject::connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));
+    QObject::connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));    //closes program when "Quit" menu item is selected
     file->addAction(quitAct);
 
     QMenu *help = new QMenu("Help");
@@ -268,8 +269,8 @@ void InformedDecision::createMenuBar() {
 }
 
 void InformedDecision::openFile() {
-    QString fileName = QFileDialog::getOpenFileName(this, "Open", "text files (*.txt)", "text files (*.txt)");
-   
+    QString fileName = QFileDialog::getOpenFileName(this, "Open", "text files (*.txt)", "text files (*.txt)");  //opens file dialog so user can select
+                                                                                                                // the file to be opened
     if(fileName.isEmpty())
         return;
     else {
@@ -288,7 +289,7 @@ void InformedDecision::openFile() {
 
 void InformedDecision::saveFile() {
     QFileDialog dialog(this);
-    QString fileName = dialog.getSaveFileName(this, "Save", "", "Text files (*.txt)");
+    QString fileName = dialog.getSaveFileName(this, "Save", "", "Text files (*.txt)");  //opens file dialog so user can save text edit area to file
 
     if(fileName.isEmpty())
         return;
